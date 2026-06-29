@@ -34,7 +34,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>
                             @if($product->gambar)
-                                <img src="{{ asset('images/' . $product->gambar) }}" alt="{{ $product->nama }}" width="100">
+                                <img src="{{ secure_asset('images/' . $product->gambar) }}" alt="{{ $product->nama }}" width="100">
                             @else
                                 <p>No Image Available</p>
                             @endif

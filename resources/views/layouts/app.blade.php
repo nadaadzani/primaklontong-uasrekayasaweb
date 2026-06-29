@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title','PrimaKlontong')</title>
-    <link rel="stylesheet" href="{{ asset('bootstrap-5.3.8-dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('bootstrap-5.3.8-dist/css/bootstrap.min.css') }}">
     <style>
-        /* Custom Navbar dengan Gradasi */
         .navbar-custom {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 10px 0;
@@ -81,7 +80,6 @@
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
-        /* Dropdown jika ada */
         .navbar-custom .dropdown-menu {
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
@@ -103,7 +101,6 @@
             transform: translateX(5px);
         }
 
-        /* Badge notifikasi (opsional) */
         .navbar-custom .badge-notif {
             position: relative;
         }
@@ -120,13 +117,6 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Responsive */
         @media (max-width: 991px) {
             .navbar-custom {
                 padding: 12px 0;
@@ -146,32 +136,27 @@
             }
         }
 
-        /* Efek scroll (opsional) */
         .navbar-custom.scrolled {
             background: linear-gradient(135deg, #5a67d8 0%, #6b46a1 100%);
             padding: 10px 0;
             box-shadow: 0 4px 30px rgba(0,0,0,0.2);
         }
 
-        /* Tambahan ikon Font Awesome (optional) */
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
-            <!-- Brand dengan ikon -->
             <a href="/" class="navbar-brand">
                 <i class="fas fa-store"></i>
                 PrimaKlontong
             </a>
             
-            <!-- Toggler -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <!-- Navbar Items -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item">
@@ -199,7 +184,6 @@
 
     <script src="{{ asset('bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js') }}"></script>
     
-    <!-- Optional: Efek scroll -->
     <script>
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar-custom');

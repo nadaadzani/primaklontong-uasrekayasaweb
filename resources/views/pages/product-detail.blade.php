@@ -89,13 +89,9 @@
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-
-            <!-- Tombol Kembali -->
             <a href="{{ route('products') }}" class="btn btn-sm btn-outline-secondary mb-3">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
-
-            <!-- Card Detail -->
             <div class="card detail-card">
                 
                 <!-- Gambar -->
@@ -103,17 +99,15 @@
                     $imgPath = 'images/' . $product->gambar;
                 @endphp
                 @if(file_exists(public_path($imgPath)))
-                    <img class="card-img-top" src="{{ asset($imgPath) }}" alt="{{ $product->nama }}">
+                    <img class="card-img-top" src="{{ secure_asset($imgPath) }}" alt="{{ $product->nama }}">
                 @else
                     <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="font-size: 3rem; color: #cbd5e0;">
                         <i class="fas fa-image"></i>
                     </div>
                 @endif
 
-                <!-- Body -->
                 <div class="card-body">
                     
-                    <!-- Title & Status -->
                     <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
                         <h1 class="product-title">{{ $product->nama }}</h1>
                         @php
@@ -123,7 +117,6 @@
                         <span class="status-badge {{ $class }}">{{ $product->status }}</span>
                     </div>
 
-                    <!-- Info Grid -->
                     <div class="row g-2 mb-3">
                         <div class="col-6">
                             <div class="info-item">
@@ -139,13 +132,11 @@
                         </div>
                     </div>
 
-                    <!-- Deskripsi -->
                     <div class="desc-box mb-3">
                         <strong><i class="fas fa-align-left me-1" style="color:#667eea;"></i> Deskripsi</strong>
                         <p class="mb-0 mt-1">{{ $product->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
                     </div>
 
-                    <!-- Tombol -->
                     <a href="{{ route('products') }}" class="btn btn-back">
                         <i class="fas fa-arrow-left me-1"></i> Kembali ke Produk
                     </a>

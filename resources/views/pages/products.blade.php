@@ -3,7 +3,6 @@
 @section('content')
 
 <style>
-/* ===== CARD STYLING ===== */
 .product-card {
     border: none;
     border-radius: 20px;
@@ -19,7 +18,6 @@
     box-shadow: 0 20px 50px rgba(102,126,234,0.18);
 }
 
-/* ===== IMAGE ===== */
 .product-card .card-img-top {
     width: 100%;
     height: 220px;
@@ -31,13 +29,11 @@
     transform: scale(1.05);
 }
 
-/* ===== IMAGE WRAPPER (untuk efek zoom terkontrol) ===== */
 .product-card .img-wrapper {
     overflow: hidden;
     position: relative;
 }
 
-/* ===== BADGE KATEGORI (opsional) ===== */
 .product-card .badge-category {
     position: absolute;
     top: 15px;
@@ -53,7 +49,6 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
-/* ===== BODY ===== */
 .product-card .card-body {
     padding: 22px 22px 25px;
 }
@@ -76,7 +71,6 @@
     margin: 8px 0 12px;
 }
 
-/* ===== BUTTON ===== */
 .product-card .btn-detail {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #fff;
@@ -94,7 +88,6 @@
     color: #fff;
 }
 
-/* ===== EMPTY STATE ===== */
 .empty-state {
     padding: 60px 20px;
     background: #f8fafc;
@@ -131,7 +124,6 @@
 </style>
 
 <div class="container py-4">
-    <!-- ===== HEADER ===== -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -146,26 +138,19 @@
         </div>
     </div>
 
-    <!-- ===== PRODUCT GRID ===== -->
     <div class="row g-4">
         @forelse($products as $product)
         <div class="col-md-4 col-sm-6">
             <div class="product-card">
-                <!-- Image -->
                 <div class="img-wrapper">
-                    <img class="card-img-top" src="{{ asset('images/' . $product->gambar) }}" alt="{{ $product->nama }}">
-                    <!-- Badge -->
+                    <img class="card-img-top" src="{{ secure_asset('images/' . $product->gambar) }}" alt="{{ $product->nama }}">
                     <span class="badge-category">
                         <i class="fas fa-tag me-1"></i> {{ $product->kategori ?? 'Produk' }}
                     </span>
                 </div>
-
-                <!-- Body -->
                 <div class="card-body">
                     <h5 class="card-title">{{ $product->nama }}</h5>
                     <p class="card-text">{{ $product->deskripsi }}</p>
-
-                    <!-- Action -->
                     <div class="mt-2">
                         <a href="{{ route('products.show', $product->id) }}" class="btn btn-detail">
                             Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
@@ -188,13 +173,11 @@
         @endforelse
     </div>
 
-    <!-- ===== PAGINATION ===== -->
     <div class="d-flex justify-content-center mt-5">
         {{ $products->links('pagination::bootstrap-5') }}
     </div>
 </div>
 
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 @endsection

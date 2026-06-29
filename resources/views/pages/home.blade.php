@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 <style>
-    /* ===== HERO BANNER ===== */
     .hero-banner {
         position: relative;
         overflow: hidden;
@@ -51,7 +50,6 @@
         text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
-    /* ===== SECTION HEADER ===== */
     .section-header {
         text-align: center;
         margin: 50px 0 30px;
@@ -84,7 +82,6 @@
         font-size: 1.1rem;
     }
 
-    /* ===== PRODUCT CARDS ===== */
     .product-card {
         border: none;
         border-radius: 20px;
@@ -176,7 +173,6 @@
         box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
     }
 
-    /* ===== CARD VARIATIONS ===== */
     .product-card.snack .icon-wrapper { color: #f6ad55; }
     .product-card.snack:hover .icon-wrapper { background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); }
 
@@ -200,10 +196,9 @@
     }
 </style>
 
-<!-- ===== HERO BANNER ===== -->
 <div class="container">
     <div class="hero-banner">
-        <img src="{{ asset('images/klontong-banner.jpg') }}" alt="PrimaKlontong - Toko Kelontong Terpercaya">
+        <img src="{{ secure_asset('images/klontong-banner.jpg') }}" alt="PrimaKlontong - Toko Kelontong Terpercaya">
         {{-- <div class="hero-overlay">
             <h1>PrimaKlontong</h1>
             <p>Belanja kebutuhan sehari-hari jadi lebih mudah &amp; menyenangkan</p>
@@ -211,7 +206,6 @@
     </div>
 </div>
 
-<!-- ===== SECTION KATEGORI PRODUK ===== -->
 <div class="container">
     <div class="section-header">
         <h2>Kategori Produk</h2>
@@ -243,7 +237,7 @@
                 </div>
                 <h5 class="card-title">Minuman</h5>
                 <p class="card-text">Berbagai macam minuman segar dan menyegarkan untuk segala suasana</p>
-                <a href="/products?category=drinks" class="btn-explore">
+                <a href="/products" class="btn-explore">
                     Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
                 </a>
             </div>
@@ -258,7 +252,7 @@
                 </div>
                 <h5 class="card-title">Makanan</h5>
                 <p class="card-text">Berbagai macam makanan lezat dan bergizi untuk kebutuhan sehari-hari</p>
-                <a href="/products?category=food" class="btn-explore">
+                <a href="/products" class="btn-explore">
                     Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
                 </a>
             </div>
