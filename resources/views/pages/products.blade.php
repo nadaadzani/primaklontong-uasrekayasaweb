@@ -167,7 +167,7 @@
 
                     <!-- Action -->
                     <div class="mt-2">
-                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-detail">
+                        <a href="{{ route('products.detail', $product->id) }}" class="btn btn-detail">
                             Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
                         </a>
                     </div>

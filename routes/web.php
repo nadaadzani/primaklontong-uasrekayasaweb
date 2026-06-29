@@ -9,7 +9,7 @@ use App\Http\Controllers\AdminProductController;
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/products',[ProductsController::class,'index'])->name('products');
-Route::get('/products/${id}',[ProductsController::class,'show'])->name('products.show');
+Route::get('/products/{product}',[ProductsController::class,'show'])->name('products.detail');
 
 Route::get('admin/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
