@@ -1,13 +1,19 @@
+<!-- resources/views/admin/template.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title','Admin Web Profile')</title>
-    <link rel="stylesheet" href="{{ secure_asset('bootstrap-5.3.8-dist/css/bootstrap.min.css') }}">
+    <title>@yield('title','Admin Template')</title>
+    
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.8/css/dataTables.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>const API_TOKEN = "{{ session('api_token') }}";</script>
+    
+    <script>
+        const API_TOKEN = "{{ session('api_token') }}" || "";
+    </script>
     
     <style>
         :root { --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --sidebar: 250px; }
@@ -32,6 +38,7 @@
             display: inline-flex; align-items: center; justify-content: center;
             color: #fff; font-weight: 700; margin-right: 8px;
         }
+
 
         .sidebar {
             width: var(--sidebar);
@@ -84,38 +91,6 @@
         }
         .card-custom .card-header { background: #f8fafc; padding: 15px 20px; font-weight: 600; border-bottom: 1px solid #edf2f7; }
         .card-custom .card-body { padding: 20px; }
-
-        .stat-card {
-            background: #fff; border-radius: 16px; padding: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            transition: all 0.3s ease;
-        }
-        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-        .stat-card .icon {
-            width: 50px; height: 50px; border-radius: 12px;
-            display: inline-flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; color: #fff; margin-bottom: 10px;
-        }
-        .stat-card .icon.purple { background: var(--primary); }
-        .stat-card .icon.blue { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-        .stat-card .icon.green { background: linear-gradient(135deg, #11998e, #38ef7d); }
-        .stat-card .icon.orange { background: linear-gradient(135deg, #f093fb, #f5576c); }
-        .stat-card .number { font-size: 1.8rem; font-weight: 800; color: #1a1a2e; margin: 0; }
-        .stat-card .label { color: #a0aec0; font-size: 0.85rem; }
-
-        .btn-gradient {
-            background: var(--primary); color: #fff; border: none;
-            padding: 8px 22px; border-radius: 50px; font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.35); color: #fff; }
-
-        .table-custom thead th {
-            background: #f8fafc; color: #4a5568; font-weight: 600; font-size: 0.8rem;
-            padding: 12px 15px; border-bottom: 2px solid #edf2f7;
-        }
-        .table-custom tbody td { padding: 10px 15px; vertical-align: middle; }
-        .table-custom tbody tr:hover { background: #f8fafc; }
     </style>
 </head>
 
@@ -133,14 +108,14 @@
                     <li class="nav-item"><a href="{{ route('home') }}" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <span class="user-avatar">{{ substr(Auth::user()->name, 0, 1) }}</span>
-                            {{ Auth::user()->name }}
+                            <span class="user-avatar">{{ substr(Auth::user()->name ?? 'A', 0, 1) }}</span>
+                            {{ Auth::user()->name ?? 'Admin' }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li class="dropdown-item-text"><strong>{{ Auth::user()->name }}</strong><br><small class="text-muted">{{ Auth::user()->email }}</small></li>
+                            <li class="dropdown-item-text"><strong>{{ Auth::user()->name ?? 'Admin' }}</strong><br><small class="text-muted">{{ Auth::user()->email ?? '' }}</small></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <form method="POST" action="{{ route('admin.logout') }}">
+                                <form method="POST" action="{{ route('admin.logout') }}" id="logout-form">
                                     @csrf
                                     <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</button>
                                 </form>
@@ -173,12 +148,13 @@
         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
         </a>
-        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display:none;">@csrf</form>
     </div>
     <div class="content">
         @yield('content')
     </div>
-    <script src="{{ asset('bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     @yield('script')
 </body>
 </html>

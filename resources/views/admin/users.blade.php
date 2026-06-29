@@ -1,18 +1,30 @@
 @extends('admin.template')
 @section('content')
+
 <div class="main-content">
-    <div class="container-fluid d-flex justify-content-between mb-3 py-3">
-        <h3>Data Users</h3>
-        <header class="justify-content-end">
-            <button type="button" id="btnAdd" class="btn btn-primary">Tambah User</button>
-        </header>
+    <div class="page-header">
+        <div>
+            <h4><i class="fas fa-users"></i> Data Users</h4>
+            <small class="text-muted">Kelola data pengguna aplikasi</small>
+        </div>
+        <div>
+            <button type="button" id="btnAdd" class="btn btn-gradient">
+                <i class="fas fa-plus me-2"></i> Tambah User
+            </button>
+        </div>
     </div>
+
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <div class="card shadow-sm">
+
+    <div class="card-custom">
+        <div class="card-header">
+            <i class="fas fa-table me-2"></i> Daftar Users
+        </div>
         <div class="card-body">
             <table class="table table-bordered" id="tabel_user">
                 <thead>
@@ -27,49 +39,50 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
- <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <form id="userForm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="userId" name="userId">
-        <div class="form-group mb-3">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name">
-        </div>
-        <div class="form-group mb-3">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email">
-        </div>
-        <div class="form-group mb-3">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
-        </div>
-        </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
+
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="userForm">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #667eea, #764ba2); color: #fff;">
+                    <h5 class="modal-title" id="userModalLabel"><i class="fas fa-user me-2"></i> Tambah User</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="userId" name="userId">
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-bold">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label fw-bold">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password (min 6 karakter)">
+                        <small class="text-muted">Kosongkan jika tidak ingin mengubah password</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-gradient">Simpan</button>
+                </div>
+            </div>
+        </form>
     </div>
-    </form>
-  </div>
 </div>
+
 @endsection
+
 @section('script')
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <script>
-    // const API_TOKEN = "{{ session('api_token') }}" || "";
     console.log('API_TOKEN:', API_TOKEN);
 
     if (!API_TOKEN) {
@@ -80,7 +93,6 @@
     }
 
     $(document).ready(function() {
-        // Initialize DataTable
         var table = $('#tabel_user').DataTable({
             ajax: {
                 url: "/api/users-list",
@@ -89,14 +101,14 @@
                 headers: {
                     'Authorization': 'Bearer ' + API_TOKEN
                 },
-                error: function(xhr, status, error) {
+                error: function(xhr) {
                     if (xhr.status === 401) {
                         toastr.error('Sesi habis, silakan login kembali');
                         setTimeout(() => {
                             window.location.href = "{{ route('login') }}";
                         }, 2000);
                     } else {
-                        toastr.error('Gagal memuat data users: ' + error);
+                        toastr.error('Gagal memuat data users');
                     }
                 }
             },
@@ -114,35 +126,24 @@
                     render: function (data, type, row) {
                         return `
                             <button class="btn btn-sm btn-warning btn-edit" data-id="${row.id}">
-                                <i class="fas fa-edit"></i> Edit
+                                <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn btn-sm btn-danger btn-delete" data-id="${row.id}">
-                                <i class="fas fa-trash"></i> Delete
+                                <i class="fas fa-trash"></i>
                             </button>
                         `;
                     }
                 }
-            ],
-            initComplete: function(settings, json) {
-                if(json && json.message) {
-                    toastr.success(json.message);
-                }
-            },
-            error: function(xhr, status, error) {
-                if (xhr.status === 401) {
-                    toastr.error('Unauthorized. Please login again.');
-                } else {
-                    toastr.error('Error loading data: ' + error);
-                }
-            }
+            ]
         });
 
         $('#btnAdd').click(function() {
             $('#userForm')[0].reset();
             $('#userId').val('');
-            $('#password').prop('required', true);
-            $('#userModalLabel').text('Tambah User');
-            $('#userModal').modal('show');
+            $('#password').prop('required', false);
+            $('#userModalLabel').html('<i class="fas fa-user-plus me-2"></i> Tambah User');
+            var modal = new bootstrap.Modal(document.getElementById('userModal'));
+            modal.show();
         });
 
         $('#userForm').submit(function(e) {
@@ -152,19 +153,15 @@
             const url = userId ? `/api/users/${userId}` : '/api/users';
             const method = userId ? 'PUT' : 'POST';
             
-            // Prepare data
             let formData = {
                 name: $('#name').val(),
                 email: $('#email').val(),
             };
             
-            // Handle password
             const password = $('#password').val();
-            if (password || !userId) {
+            if (password) {
                 formData.password = password;
             }
-            
-            console.log('Sending data:', formData);
             
             $.ajax({
                 url: url,
@@ -175,7 +172,8 @@
                     'Authorization': 'Bearer ' + API_TOKEN
                 },
                 success: function(response) {
-                    $('#userModal').modal('hide');
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('userModal'));
+                    modal.hide();
                     $('#tabel_user').DataTable().ajax.reload();
                     toastr.success(response.message || 'Data berhasil disimpan');
                     $('#userForm')[0].reset();
@@ -187,8 +185,6 @@
                             $.each(xhr.responseJSON.errors, function(field, errors) {
                                 errorMsg += `${field}: ${errors.join(', ')}\n`;
                             });
-                        } else if (xhr.responseJSON.message) {
-                            errorMsg = xhr.responseJSON.message;
                         }
                         toastr.error(errorMsg);
                     } else if (xhr.status === 401) {
@@ -197,9 +193,8 @@
                             window.location.href = "{{ route('login') }}";
                         }, 2000);
                     } else {
-                        toastr.error('Gagal menyimpan data: ' + xhr.statusText);
+                        toastr.error('Gagal menyimpan data');
                     }
-                    console.log('Error:', xhr.responseJSON);
                 }
             });
         });
@@ -218,19 +213,13 @@
                     $('#userId').val(data.id);
                     $('#name').val(data.name);
                     $('#email').val(data.email);
-                    $('#password').val('').prop('required', false);
-                    $('#userModalLabel').text('Edit User');
-                    $('#userModal').modal('show');
+                    $('#password').val('');
+                    $('#userModalLabel').html('<i class="fas fa-user-edit me-2"></i> Edit User');
+                    var modal = new bootstrap.Modal(document.getElementById('userModal'));
+                    modal.show();
                 },
-                error: function(xhr) {
-                    if (xhr.status === 401) {
-                        toastr.error('Sesi habis, silakan login kembali');
-                        setTimeout(() => {
-                            window.location.href = "{{ route('login') }}";
-                        }, 2000);
-                    } else {
-                        toastr.error('Gagal memuat data user: ' + xhr.statusText);
-                    }
+                error: function() {
+                    toastr.error('Gagal memuat data user');
                 }
             });
         });
@@ -249,15 +238,8 @@
                         $('#tabel_user').DataTable().ajax.reload();
                         toastr.success(response.message || 'User berhasil dihapus');
                     },
-                    error: function(xhr) {
-                        if (xhr.status === 401) {
-                            toastr.error('Sesi habis, silakan login kembali');
-                            setTimeout(() => {
-                                window.location.href = "{{ route('login') }}";
-                            }, 2000);
-                        } else {
-                            toastr.error('Gagal menghapus data: ' + xhr.statusText);
-                        }
+                    error: function() {
+                        toastr.error('Gagal menghapus data');
                     }
                 });
             }
@@ -265,7 +247,22 @@
     });
 </script>
 
-<!-- Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    .btn-gradient {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .btn-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102,126,234,0.35);
+        color: #fff;
+    }
+    .btn-gradient i { margin-right: 8px; }
+</style>
 
 @endsection
