@@ -60,7 +60,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label fw-bold">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password (min 6 karakter)">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password (min 8 karakter)">
                         <small class="text-muted">Kosongkan jika tidak ingin mengubah password</small>
                     </div>
                 </div>
